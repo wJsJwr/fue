@@ -125,7 +125,7 @@ else
     result['message'] = '例句中需要包含短语。'
     halt result.to_json        
 end
-if db.get_first_value('SELECT COUNT(*) FROM expr_body WHERE phrase=? AND context=? AND docid <> ?', [phr, con, eid]) > 0
+if db.get_first_value('SELECT COUNT(*) FROM expr_body WHERE phrase=? AND context=? AND rowid <> ?', [phr, con, eid]) > 0
     result['message'] = '和现有的词条重复。'
     halt result.to_json
 end
@@ -135,7 +135,7 @@ if eid == 0
     db.execute('INSERT INTO expr_info(update_at, user_id, version) VALUES (?,?,?)', [t.to_i, session['uid'], 1])
     eid = db.get_first_value('SELECT expr_id FROM expr_info WHERE update_at=? AND user_id=? AND version=?', [t.to_i, session['uid'], 1])
     if eid > 0
-        db.execute('INSERT INTO expr_body(docid, context, phrase, description) VALUES (?,?,?,?)',[eid, con, phr, des])
+        db.execute('INSERT INTO expr_body(rowid, context, phrase, description) VALUES (?,?,?,?)',[eid, con, phr, des])
         db.execute('INSERT INTO contributes(expr_id, user_id) VALUES (?,?)', [eid, session['uid']])
         result['result'] = 'ok'
         result['goto'] = Routes.url_for({'entry'=>'detail', 'expr_id'=>eid})
@@ -147,10 +147,10 @@ else
     if db.get_first_value('SELECT COUNT(*) FROM expr_info WHERE expr_id=?', eid) == 0
         halt 400
     else
-        body_row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE docid=?', eid)
+        body_row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE rowid=?', eid)
         info_row = db.get_first_row('SELECT update_at, user_id, version FROM expr_info WHERE expr_id=?', eid)
         db.execute('INSERT INTO history(expr_id, context, phrase, description, update_at, user_id, version) VALUES (?,?,?,?,?,?,?)', [eid, body_row[0], body_row[1], body_row[2], info_row[0], info_row[1], info_row[2]])
-        db.execute('UPDATE expr_body SET context=?, phrase=?, description=? WHERE docid=?', [con, phr, des, eid])
+        db.execute('UPDATE expr_body SET context=?, phrase=?, description=? WHERE rowid=?', [con, phr, des, eid])
         db.execute('UPDATE expr_info SET update_at=?, user_id=?, version=? WHERE expr_id=?', [Time.now.to_i, session['uid'], info_row[2]+1, eid])
         if db.get_first_value('SELECT COUNT(*) FROM contributes WHERE expr_id=? AND user_id=?', [eid, session['uid']]) == 0
             db.execute('INSERT INTO contributes(expr_id, user_id) VALUES (?,?)', [eid, session['uid']])
@@ -164,7 +164,7 @@ end
 
 get Routes::Detail do |expr_id|
     eid = expr_id.to_i
-    row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE docid=?', eid)
+    row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE rowid=?', eid)
     if row.length == 0
         redirect to(Routes::Index)
     else
@@ -206,7 +206,7 @@ get Routes::HisEntry do |expr_id, version|
 end
 
 get Routes::Card do 
-    row = db.get_first_row('SELECT docid, context, phrase, description FROM expr_body ORDER BY RANDOM() LIMIT 1') 
+    row = db.get_first_row('SELECT rowid, context, phrase, description FROM expr_body ORDER BY RANDOM() LIMIT 1') 
     erb :card, :locals => {
         :expr_phrase => row[2],
         :expr_context => row[1],
@@ -221,7 +221,7 @@ get Routes::Update do |expr_id|
         redirect to(Routes::Login)
     else
         eid = expr_id.to_i
-        row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE docid=?', eid)
+        row = db.get_first_row('SELECT context, phrase, description FROM expr_body WHERE rowid=?', eid)
         if row.length == 0
             redirect to(Routes::Index)
         else
@@ -230,7 +230,7 @@ get Routes::Update do |expr_id|
                     'phrase' => row[1],
                     'context' => Sanitize.fragment(row[0]),
                     'description' => row[2],
-                    'docid' => eid
+                    'rowid' => eid
                 }
             }
         end
@@ -250,9 +250,9 @@ get Routes::Search do
             end
         else            
             if s.ascii_only?
-                rows = db.execute('SELECT docid, context, phrase, description FROM expr_body WHERE expr_body MATCH ?', s)
+                rows = db.execute('SELECT rowid, context, phrase, description FROM expr_body WHERE expr_body MATCH ? ORDER BY bm25(expr_body)', s)
             else
-                rows = db.execute('SELECT docid, context, phrase, description FROM expr_body WHERE description LIKE ?', "%#{s}%")
+                rows = db.execute('SELECT rowid, context, phrase, description FROM expr_body WHERE description LIKE ?', "%#{s}%")
             end
             erb :search, :locals => {:f_search => s}, :layout => :default_layout do
                 erb :sresult, :locals => { :rows => rows }
@@ -264,7 +264,7 @@ end
 get Routes::History do |expr_id|
     eid = expr_id.to_i
     rows = db.execute('SELECT history.update_at, history.version, users.name FROM history JOIN users ON users.user_id = history.user_id WHERE history.expr_id=? ORDER BY history.update_at DESC', eid)
-    expr_phrase = db.get_first_value('SELECT phrase FROM expr_body WHERE docid=?', eid)
+    expr_phrase = db.get_first_value('SELECT phrase FROM expr_body WHERE rowid=?', eid)
     erb :history, :layout => :default_layout, :locals => { :expr_phrase => expr_phrase, :rows => rows, :expr_id => eid }
 end
 
