@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS expr_info (
     version      INTEGER NOT NULL
 );
 -- 词条内容表，支持全文搜索
-CREATE VIRTUAL TABLE IF NOT EXISTS expr_body USING fts4(
+CREATE VIRTUAL TABLE IF NOT EXISTS expr_body USING fts5(
     context      TEXT NOT NULL,
     phrase       TEXT NOT NULL,
     description  TEXT NOT NULL,
