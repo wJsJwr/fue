@@ -7,10 +7,7 @@ CREATE TABLE IF NOT EXISTS expr_info (
 );
 -- 词条内容表，支持全文搜索
 CREATE VIRTUAL TABLE IF NOT EXISTS expr_body USING fts5(
-    context      TEXT NOT NULL,
-    phrase       TEXT NOT NULL,
-    description  TEXT NOT NULL,
-    tokenize=unicode61
+    context, phrase, description, tokenize=unicode61
 );
 -- 历史记录表
 CREATE TABLE IF NOT EXISTS history (
