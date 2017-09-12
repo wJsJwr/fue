@@ -1,0 +1,19 @@
+<div class="card-header text-center">
+    <h1>
+        <%= expr_phrase %>
+    </h1>
+</div>
+<div class="card-body">
+    <h6 class="card-subtitle text-muted">例句</h6>
+    <p class="card-text">
+        <%= expr_context %>
+    </p>
+    <h6 class="card-subtitle text-muted">注解</h6>
+    <p class="card-text">
+        <%= expr_description %>
+    </p>
+    <a href="<%= Routes.url_for({'entry'=>'detail', 'expr_id'=>expr_id}) %>" class="card-link">感兴趣？点此展开</a>
+</div>
+<div class="card-footer text-right">
+    <a href="javascript: getCard();">换一个</a>
+</div>

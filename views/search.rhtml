@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="starter">
+        <h1>搜索词条</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <form action="<%= Routes::Search %>" id="fue-search-form" method="get">
+                <div class="form-group">
+                    <input class="form-control form-control-lg" type="text" name="search" required value="<%= f_search %>">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+            <br>
+            <br>
+            <div id="search-result">
+                <%= yield %>
+            </div>
+        </div>
+    </div>
+
+</div>

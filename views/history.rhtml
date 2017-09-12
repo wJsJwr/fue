@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="starter">
+        <h1><%= expr_phrase %>的历史</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>更新时间</th>
+                        <th>查看详情</th>
+                        <th>贡献者</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if rows.length==0 %>
+                    <tr><td colspan="3">没有历史</td></tr>
+                    <% end %>
+                    <% rows.each do |row| %>
+                        <tr>
+                            <td><%= Time.at(row[0]).strftime("%F %R") %></td>
+                            <td> <a href="<%= Routes.url_for({ 'entry'=>'detail', 'expr_id'=>expr_id, 'version'=>row[1] }) %>">查看</a></td>
+                            <td><%= row[2] %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

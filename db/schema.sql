@@ -28,6 +28,10 @@ CREATE TABLE IF NOT EXISTS users (
     user_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     name         TEXT NOT NULL
 );
+-- 默认的匿名用户
+INSERT INTO users(name) VALUES ("匿名用户");
+-- 设置唯一索引
+CREATE UNIQUE INDEX IF NOT EXISTS user_name_index ON users(name);
 -- 评论表
 CREATE TABLE IF NOT EXISTS comments (
     comment_id   INTEGER PRIMARY KEY AUTOINCREMENT,

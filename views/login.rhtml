@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="starter">
+        <h1>登录</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h4 class="normal-line-height"><span class="brand">fue</span>是一个自由开放的平台，任何人可以匿名地发布以及编辑词条。但仍然希望您能够留下尊姓大名，让看到词条的同学心中有感谢的人。</h4>
+            <br>
+            <br>
+            <form method="post" action="<%= Routes::Login %>" id="needs-validation">
+                <div class="form-group">
+                    <label for="fue-username">尊姓大名</label>
+                    <input type="text" class="form-control" id="fue-username" name="fue-username" required>
+                    <div class="invalid-feedback">
+                        尊姓大名不能为空。
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </div>
+            </form>
+            <div class="text-center">
+                <a href="<%= session['login_from'] %>" class="text-muted">继续匿名</a>
+            </div>
+        </div>
+    </div>
+
+</div>

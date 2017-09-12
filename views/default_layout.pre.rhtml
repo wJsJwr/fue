@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <style type="text/css">
+        .brand {
+            font-family: 'Pacifico', cursive;
+        }
+
+        h1.brand {
+            font-size: 72pt;
+            margin-bottom: 0.5em;
+        }
+
+        body {
+            padding-top: 5rem;
+        }
+
+        .starter {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        li.comment {
+            border-bottom-width: 0px;
+            border-left-width: 0px;
+            border-right-width: 0px;
+
+            border-top: 1px solid rgba(0, 0, 0, .125);
+        }
+
+        li.comment:first-child {
+            border-width: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand brand" href="#">fue</a>
+
+        <div class="collapse navbar-collapse" id="navbar-top">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%= Routes::Index %>">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%= Routes::New %>">新建词条</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%= Routes::Search %>">搜索词条</a>
+                </li>
+            </ul>
+            <% if session['uid'] == 1 %>
+                <span class="navbar-text">匿名用户, <a href="<%= Routes::Login %>?from=login_btn">登录</a></span>
+            <% else %>
+                <span class="navbar-text"><%= session['uname'] %>, <a href="<%= Routes::Logout %>">退出</a></span>
+            <% end -%>
+        </div>
+    </nav>
+
+    <%= yield %>
+    <!-- /.container -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script>    
+        /**NEED-FUE-MIN-JS**/
+    </script>
+</body>
+
+</html>

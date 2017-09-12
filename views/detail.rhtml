@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="starter">
+        <h1><%= expr_phrase %></h1>
+        <% if expr_more['history'] %>
+        <h4>历史版本，于<%= expr_more['update_at'] %>修改。</h4>
+        <% end %>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h6 class="text-muted">例句</h6>
+            <p class="lead"><%= expr_context %></p>
+            <h6 class="text-muted">注解</h6>
+            <p class="lead"><%= expr_description %></p>
+            <hr>
+            <div class="text-muted text-right">
+                <p>贡献者：<%= expr_contribute %></p>
+                <p>
+                    <% if expr_more['history'] %>
+                    <a href="<%= Routes.url_for({'entry'=>'detail', 'expr_id'=>expr_id})%>">返回最新版本</a>
+                    <% else %>
+                    <a href="<%= Routes.url_for({'entry'=>'update', 'expr_id'=>expr_id})%>">修改条目</a>
+                    <% end %>
+                    <a href="<%= Routes.url_for({'entry'=>'detail', 'expr_id'=>expr_id, 'version'=>0})%>">历史版本</a>
+                </p>
+            </div>
+            <div>
+                <h2>讨论</h2>
+                <% unless expr_more['history'] %>
+                <div style="padding-left:1em;padding-right:1em;">
+                    <% if session['uid'] == 1 %>
+                    <p>您当前是匿名用户，建议您先<a href="<%= Routes::Login %>?from=login_btn">登录</a></p>
+                    <div class="alert alert-danger" id="alert-message" role="alert" ></div>                    
+                    <% end -%>
+                    <form class="form" id="fue-comment" action="<%= Routes.url_for({'entry'=>'comment', 'expr_id'=>expr_id, 'version'=>0})%>" method="post">
+                        <div class="form-group">
+                            <textarea class="form-control" id="fue-comment-area" rows="2" placeholder="理性发言，禁止养苟" name="content"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <% end %>
+                <div id="comment-area">
+                    <input type="hidden" name="expr-comment-eid" value="<%= expr_id %>">
+                    <input type="hidden" name="expr-comment-version" value="<%= expr_more['version'] %>">
+                    <ul class="list-group" id="comment-list">
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

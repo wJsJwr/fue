@@ -1,0 +1,16 @@
+<% rows.each do |row| %>
+    <div>
+        <h5>
+            <a href="<%= Routes.url_for({'entry'=>'detail', 'expr_id'=>row[0]}) %>">
+                <%= row[2] %>
+            </a>
+        </h5>
+        <p>
+            <%= row[1] %>
+        </p>
+        <p>
+            <%= row[3] %>
+        </p>
+    </div>
+    <br>
+<% end %>

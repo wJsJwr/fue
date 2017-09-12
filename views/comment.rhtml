@@ -1,0 +1,15 @@
+<% if rows.length == 0%>
+<li class="list-group-item comment">
+    <blockquote class="blockquote mb-0">
+        <p>没有评论</p>
+    </blockquote>
+</li>
+<% end %>
+<% rows.each do |row| %>
+<li class="list-group-item comment">
+    <blockquote class="blockquote mb-0">
+        <p><%= row[0] %></p>
+        <footer class="blockquote-footer text-right"><%= Time.at(row[1]).strftime("%F %R") %> <cite title="Source Title"><%= row[2] %></cite></footer>
+    </blockquote>
+</li>
+<% end %>
