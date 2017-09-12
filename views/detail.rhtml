@@ -30,7 +30,7 @@
                     <% if session['uid'] == 1 %>
                     <p>您当前是匿名用户，建议您先<a href="<%= Routes::Login %>?from=login_btn">登录</a></p>
                     <div class="alert alert-danger" id="alert-message" role="alert" ></div>                    
-                    <% end -%>
+                    <% end %>
                     <form class="form" id="fue-comment" action="<%= Routes.url_for({'entry'=>'comment', 'expr_id'=>expr_id, 'version'=>0})%>" method="post">
                         <div class="form-group">
                             <textarea class="form-control" id="fue-comment-area" rows="2" placeholder="理性发言，禁止养苟" name="content"></textarea>

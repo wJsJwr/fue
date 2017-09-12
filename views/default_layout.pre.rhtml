@@ -63,7 +63,7 @@
                 <span class="navbar-text">匿名用户, <a href="<%= Routes::Login %>?from=login_btn">登录</a></span>
             <% else %>
                 <span class="navbar-text"><%= session['uname'] %>, <a href="<%= Routes::Logout %>">退出</a></span>
-            <% end -%>
+            <% end %>
         </div>
     </nav>
 

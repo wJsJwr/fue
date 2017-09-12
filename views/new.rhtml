@@ -4,7 +4,7 @@
         <h1>新建词条</h1>
     <% else %>
         <h1>修改词条</h1>
-    <% end -%>
+    <% end %>
     </div>
     <div class="row justify-content-center">
         <div class="col-lg-6">
@@ -18,7 +18,7 @@
                     <% else %>
                         <input type="text" class="form-control" id="fue-phrase" name="fue-phrase" value="<%= expr['phrase'] %>" required>
                         <input type="hidden" name="fue-id" value="<%= expr['docid'] %>">                        
-                    <% end -%>
+                    <% end %>
                 </div>
                 <div class="form-group">
                     <label for="fue-context">例句</label>
@@ -26,7 +26,7 @@
                         <textarea class="form-control" id="fue-context" rows="3" name="fue-context" required></textarea>
                     <% else %>
                         <textarea class="form-control" id="fue-context" rows="3" name="fue-context" required><%= expr['context'] %></textarea>
-                    <% end -%>
+                    <% end %>
                 </div>
                 <div class="form-group">
                     <label for="fue-description">注解</label>
@@ -34,7 +34,7 @@
                         <textarea class="form-control" id="fue-description" rows="3" name="fue-description" required></textarea>
                     <% else %>
                         <textarea class="form-control" id="fue-description" rows="3" name="fue-description" required><%= expr['description'] %></textarea>
-                    <% end -%>
+                    <% end %>
                 </div>
                 <button type="submit" class="btn btn-primary">提交</button>
             </form>
